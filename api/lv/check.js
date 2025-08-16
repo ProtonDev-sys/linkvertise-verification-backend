@@ -1,4 +1,5 @@
-import { get, setex } from "./_redis.js";
+import { get, setex } from "../_redis.js";
+
 export default async function handler(req, res) {
   try {
     const { sid } = req.query || {};
@@ -17,5 +18,7 @@ export default async function handler(req, res) {
       await setex(`lv:sid:${sid}`, ttl, sess);
     }
     res.status(200).json({ valid: !!sess.verified });
-  } catch { res.status(500).json({ valid:false, error:"internal" }); }
+  } catch {
+    res.status(500).json({ valid:false, error:"internal" });
+  }
 }
